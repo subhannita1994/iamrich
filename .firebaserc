@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "iamrich-2e932": {
+      "hosting": {
+        "iamrich": [
+          "iamrich-2e932"
+        ]
+      }
+    }
+  }
+}
