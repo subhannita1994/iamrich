@@ -4,21 +4,25 @@ import {
 } from '@angular/fire/auth-guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BASE, CREATE, HOME } from './consts/routes.const';
+import { BASE, CREATE, HOME, DASHBOARD, BUDGETS, SETTINGS } from './consts/routes.const';
 import { CreateComponent } from './components/create/create.component';
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BudgetsComponent } from './components/budgets/budgets.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo([HOME]);
 
 const routes: Routes = [
   {
     path: BASE,
-    redirectTo: `/${HOME}`,
+    redirectTo: `/${DASHBOARD}`,
     pathMatch: 'full',
   },
   {
     path: HOME,
-    component: AppComponent,
+    redirectTo: `/${DASHBOARD}`,
+    pathMatch: 'full',
   },
   {
     path: CREATE,
@@ -26,6 +30,24 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
+  {
+    path: DASHBOARD,
+    component: DashboardComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: BUDGETS,
+    component: BudgetsComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: SETTINGS,
+    component: SettingsComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  }
 ];
 
 @NgModule({

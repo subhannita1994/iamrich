@@ -1,29 +1,14 @@
-<button
-  mat-mini-fab
-  color="primary"
-  class="avatar-button"
-  [matMenuTriggerFor]="beforeMenu"
->
-  <mat-icon
-          aria-hidden="false"
-          aria-label="Login"
-          >
-          account_box
-        </mat-icon>
+<button mat-mini-fab color="primary" class="avatar-button" [matMenuTriggerFor]="beforeMenu">
+  <mat-icon aria-hidden="false" aria-label="Login">account_box</mat-icon>
 </button>
+<span class="spacer"></span>
 <mat-menu #beforeMenu="matMenu" xPosition="before">
   <div class="profile-card">
-    <img 
-      [alt]="user.displayName"
-      [src]="user.photoURL" 
-      class="big-avatar" />
+    <img [alt]="user.displayName" [src]="user.photoURL" class="big-avatar" />
     <h4>{{ user.displayName }}</h4>
     <p>{{ user.email }}</p>
     <mat-divider></mat-divider>
-    <button mat-stroked-button (click)="logout()">
-      Sign Out
-    </button>
+    <button mat-stroked-button (click)="logout()">Sign Out</button>
     <mat-divider></mat-divider>
-    
   </div>
 </mat-menu>

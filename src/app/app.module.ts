@@ -9,13 +9,19 @@ import { AppMaterialModule } from './app-material-module/app-material.module';
 import { HeaderComponent } from './components/header/header.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { CreateComponent } from './components/create/create.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BudgetsComponent } from './components/budgets/budgets.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     ProfileCardComponent,
-    CreateComponent
+    CreateComponent,
+    DashboardComponent,
+    BudgetsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

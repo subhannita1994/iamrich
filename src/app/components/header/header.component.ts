@@ -50,7 +50,7 @@ export class HeaderComponent {
       .pipe(take(1))
       .subscribe((response) => {
         this.router.navigate([`/${HOME}`]);
-        this.snackBar.open('Come back soon with treats!', 'Close', {
+        this.snackBar.open('Come back soon!', 'Close', {
           duration: 4000,
         });
       });
