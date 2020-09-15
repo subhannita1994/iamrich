@@ -8,9 +8,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private user: BehaviorSubject<
-    Observable<firebase.User>
-  > = new BehaviorSubject<Observable<firebase.User>>(null);
+  private user: BehaviorSubject<Observable<firebase.User>> = new BehaviorSubject<Observable<firebase.User>>(null);
 
   user$ = this.user
     .asObservable()

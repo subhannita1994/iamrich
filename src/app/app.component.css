@@ -24,7 +24,7 @@
     flex: 1;
   }
 
-  .toolbar {
+  mat-toolbar {
     position: absolute;
     top: 0;
     left: 0;
@@ -54,9 +54,10 @@
 
   .content {
     display: flex;
-    margin: 82px auto 32px;
-    padding: 0 16px;
-    max-width: 960px;
+    margin-top: 82px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     flex-direction: column;
     align-items: center;
   }

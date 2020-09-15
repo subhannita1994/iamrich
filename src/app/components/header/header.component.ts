@@ -3,9 +3,11 @@ import { Component } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import {  CookieService  } from 'ngx-cookie-service';
 
 import { AuthService } from '../../services/auth/auth.service';
-import { HOME } from './../../consts/routes.const';
+import { DatabaseService } from '../../services/database/database.service';
+import { BASE, DASHBOARD } from './../../consts/routes.const';
 
 @Component({
   selector: 'app-account',
@@ -17,8 +19,10 @@ export class HeaderComponent {
 
   constructor(
     private readonly auth: AuthService,
+    private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
+    private cookieService: CookieService
   ) {}
 
   login() {
@@ -32,16 +36,16 @@ export class HeaderComponent {
         }),
       )
       .subscribe(
-        (response) =>
-          response &&
+        (response) =>{
+
+          this.database.AddUser(response.additionalUserInfo.profile['email'], response.additionalUserInfo.profile['id']);
+          this.cookieService.set('email', response.additionalUserInfo.profile['email']);
+          this.cookieService.set('id', response.additionalUserInfo.profile['id']); 
+          this.router.navigate([`/${DASHBOARD}`]);
           this.snackBar.open(
-            `Oh! You're here. I demand that you feed me, Hooman.`,
-            'Close',
-            {
-              duration: 4000,
-            },
-          ),
-      );
+            'Welcome!', 'Close',{duration: 4000,},
+          );
+        });
   }
 
   logout() {
@@ -49,7 +53,8 @@ export class HeaderComponent {
       .logout()
       .pipe(take(1))
       .subscribe((response) => {
-        this.router.navigate([`/${HOME}`]);
+        this.cookieService.deleteAll();
+        this.router.navigate([`/${BASE}`]);
         this.snackBar.open('Come back soon!', 'Close', {
           duration: 4000,
         });

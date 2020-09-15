@@ -17,9 +17,12 @@
       
       <button mat-button routerLink="/settings">Settings</button>
       <span class="spacer"></span>
+
+      <button mat-button routerLink="/transactionBetweenAccounts">Inter-account transactions</button>
+      <span class="spacer"></span>
       
-      <button mat-icon-button routerLink="/create" matTooltip="Add an expense">
-        <mat-icon aria-hidden="false" aria-label="Add an expense">add</mat-icon>
+      <button mat-icon-button routerLink="/create" matTooltip="Add an expense/income">
+        <mat-icon aria-hidden="false" aria-label="Add an expense/income">add</mat-icon>
       </button>
 
       <app-profile-card 
@@ -31,10 +34,11 @@
     </ng-container>
 
     <ng-template #loginIcon>
-      <button mat-icon-button color="primary" (click)="login()" matTooltip="Login">
+      <button mat-icon-button (click)="login()" matTooltip="Login">
         Login
         <mat-icon aria-hidden="false" aria-label="Login">login</mat-icon>
       </button>
+      <span class="spacer"></span>
     </ng-template>
 
 

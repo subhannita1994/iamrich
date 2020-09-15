@@ -1,1 +1,107 @@
-<p>create works!</p>
+<div class="form-container">
+  <form #newtransaction="ngForm" (ngSubmit)="addTransaction(newtransaction)"> 
+  <mat-form-field appearance="fill" style="width: 120px">
+    <mat-select  [(value)]="selectedType" [formControl]="type" required>
+      <mat-option value="expense" (click)="changeCategories('expense')">Expense</mat-option>
+      <mat-option value="income" (click)="changeCategories('income')">Income</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100px">
+    <mat-label>Amount</mat-label>
+    <input matInput [formControl]="amount" required>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" style="width: 80px">
+    <mat-select [(value)]="selectedCurrency" [formControl]="currency">
+      <mat-option value="CAD">CAD</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select [formControl]="category" required>
+      <mat-option *ngFor="let c of categories" value="{{c}}">{{c}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100px">
+    <mat-label>Recurrence</mat-label>
+    <mat-select [(value)]="selectedReccurence" [formControl]="recurrence">
+      <mat-option value="Once">Once</mat-option>
+      <mat-option value="Weekly">Weekly</mat-option>
+      <mat-option value="BiWeekly">Bi-weekly</mat-option>
+      <mat-option value="Monthly">Monthly</mat-option>
+      <mat-option value="Yearly">Yearly</mat-option>
+    </mat-select>
+  </mat-form-field>
+ 
+  <mat-form-field appearance="fill" style="width: 150px">
+    <input matInput [matDatepicker]="picker" [(value)] = "selectedDate" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker  #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 120px">
+    <mat-label>Account</mat-label>
+    <mat-select [(value)]="selectedAccount" [formControl]="account" required>
+      <mat-option *ngFor="let a of accounts" value="{{a}}">{{a}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput [formControl]="description"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" style="margin-left: 8px">Add</button>
+</form>
+</div>
+
+<div class="transactions-container mat-elevation-z8">
+  <mat-form-field style="margin-left: 10px; margin-top: 10px">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="transactions" multiTemplateDataRows matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <div class="example-element-currency"> Currency: {{element.currency}} </div>
+              <div class="example-element-recurrence"> Recurrence: {{element.recurrence}} </div>
+              <div class="example-element-account"> Account: {{element.account}} </div>
+              <div class="example-element-description"> {{element.description}}</div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator [length]="transactions_count" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>
+
+
+
+
+
+
+
+
+
