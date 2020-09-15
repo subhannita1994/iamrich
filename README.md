@@ -1,5 +1,8 @@
 # Iamrich
 
+A simple budget tracker app with means to create monthly/bi-weekly/weekly/daily budgets and logging expenses, incomes and transactions between accounts.
+You can customise much of the app according to your needs, as opposed to most of the budget apps out there.
+Furthermore, there is a dashboard to visualise your wealth. So, feel rich!
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
 
 ## Development server
