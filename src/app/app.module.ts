@@ -18,6 +18,7 @@ import { BudgetsComponent } from './components/budgets/budgets.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { BaseComponent } from './components/base/base.component';
 import { TransactionBetweenAccountsComponent } from './components/transaction-between-accounts/transaction-between-accounts.component';
+import { EditTransactionComponent } from './components/edit-transaction/edit-transaction.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TransactionBetweenAccountsComponent } from './components/transaction-be
     BudgetsComponent,
     SettingsComponent,
     BaseComponent,
-    TransactionBetweenAccountsComponent
+    TransactionBetweenAccountsComponent,
+    EditTransactionComponent
   ],
   imports: [
     BrowserModule,

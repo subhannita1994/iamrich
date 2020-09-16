@@ -1,0 +1,63 @@
+
+<h1 mat-dialog-title>Update</h1>
+<div class="form-container">
+  <form #editTransaction="ngForm" (ngSubmit)="edit(editTransaction)"> 
+  <mat-form-field appearance="fill" style="width: 120px">
+    <mat-select  [(value)]="selectedType" [formControl]="type" required>
+      <mat-option value="expense" (click)="changeCategories('expense')">Expense</mat-option>
+      <mat-option value="income" (click)="changeCategories('income')">Income</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100px">
+    <mat-label>Amount</mat-label>
+    <input matInput [formControl]="amount" required>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" style="width: 80px">
+    <mat-select [(value)]="selectedCurrency" [formControl]="currency">
+      <mat-option value="CAD">CAD</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select [formControl]="category" required>
+      <mat-option *ngFor="let c of categories" value="{{c}}">{{c}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100px">
+    <mat-label>Recurrence</mat-label>
+    <mat-select [(value)]="selectedReccurence" [formControl]="recurrence">
+      <mat-option value="Once">Once</mat-option>
+      <mat-option value="Weekly">Weekly</mat-option>
+      <mat-option value="BiWeekly">Bi-weekly</mat-option>
+      <mat-option value="Monthly">Monthly</mat-option>
+      <mat-option value="Yearly">Yearly</mat-option>
+    </mat-select>
+  </mat-form-field>
+ 
+  <mat-form-field appearance="fill" style="width: 150px">
+    <input matInput [matDatepicker]="picker" [(value)] = "selectedDate" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker  #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 120px">
+    <mat-label>Account</mat-label>
+    <mat-select [(value)]="selectedAccount" [formControl]="account" required>
+      <mat-option *ngFor="let a of accounts" value="{{a}}">{{a}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput [formControl]="description"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" style="margin-left: 8px">Update</button>
+  <button mat-button mat-flat-button color="warn" (click)="closeDialog()" type="button" >Cancel</button>
+</form>
+</div>

@@ -8,7 +8,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
-
+import {MatDialog} from '@angular/material/dialog';
+import {EditTransactionComponent} from '../edit-transaction/edit-transaction.component';
 
 @Component({
   selector: 'app-create',
@@ -27,12 +28,13 @@ export class CreateComponent implements AfterViewInit{
   selectedReccurence;  selectedDate;  date;  accounts=[];  selectedAccount; account; description;
   @Input() transactions: MatTableDataSource<any>;   @Input() transactions_count; 
   @ViewChild(MatPaginator) paginator: MatPaginator; @ViewChild(MatSort) sort: MatSort;
-  columnsToDisplay = ['date', 'type', 'amount', 'category'];
+  columnsToDisplay = ['date', 'type', 'amount', 'category', 'action'];
 
   constructor(private snackBar:MatSnackBar,
               private readonly database: DatabaseService, 
               private cookieService: CookieService,
-              private datepipe: DatePipe) { 
+              private datepipe: DatePipe,
+              private dialog: MatDialog) { 
     this.selectedType='expense';
     this.type = new FormControl(this.selectedType, [Validators.required]);
     this.amount = new FormControl('', [Validators.required]);
@@ -50,10 +52,16 @@ export class CreateComponent implements AfterViewInit{
     this.description = new FormControl('', []);
     this.database.getTransactions(this.cookieService.get('id')).subscribe(
         res=> { 
-          this.transactions = new MatTableDataSource(res); 
+          var temp = new Array();
+          res.forEach( item => {
+            temp.push({'transactionID': item.key, 'type':item.payload.val()['type'], 'amount':item.payload.val()['amount'], 'currency':item.payload.val()['currency'], 'category':item.payload.val()['category'],
+          'recurrence':item.payload.val()['recurrence'], 'date':item.payload.val()['date'], 'account':item.payload.val()['account'], 'description':item.payload.val()['description']});
+            
+          });
+          this.transactions = new MatTableDataSource(temp); 
           this.transactions.paginator = this.paginator;
           this.transactions.sort = this.sort;
-          this.transactions_count = res.length; });
+          this.transactions_count = temp.length; });
   }
 
   ngAfterViewInit() {
@@ -67,6 +75,28 @@ applyFilter(event: Event) {
     if (this.transactions.paginator) {
       this.transactions.paginator.firstPage();
     }
+  }
+
+  editRow(obj) {
+    const dialogRef = this.dialog.open(EditTransactionComponent, {
+      width: '80%',
+      data:obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Edit'){
+        var response = this.database.updateTransaction(this.cookieService.get('id'), obj.transactionID, result.data);
+        if(response)
+           this.snackBar.open('Success!', 'Close',{duration: 4000});
+         else
+           this.snackBar.open('Sorry! Try again!', 'Close', {duration: 4000});
+      }
+    });
+  }
+
+
+  deleteRow(obj){
+    console.log(obj);
   }
 
   changeCategories(type:string){
